@@ -31,9 +31,7 @@ const LoginForm = () => {
   const { errors } = formState;
 
   const onSubmit = (data) => {
-    login(data)
-      .then((res) => router.push('/profile'))
-      .catch((e) => console.error(e));
+    login(data).then((res) => router.push('/profile'));
   };
 
   return (
@@ -59,6 +57,7 @@ const LoginForm = () => {
             <TextInput
               label="Username"
               placeholder="Your username"
+              autoComplete="username"
               {...register('userName')}
               error={errors?.userName?.message}
             />
@@ -66,6 +65,7 @@ const LoginForm = () => {
               label="Password"
               placeholder="Your password"
               mt="md"
+              autoComplete="current-password"
               {...register('password')}
               error={errors?.password?.message}
             />

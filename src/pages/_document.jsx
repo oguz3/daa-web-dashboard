@@ -33,10 +33,6 @@ export default class _Document extends Document {
             href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800;900&display=swap"
             rel="stylesheet"
           />
-          <meta
-            http-equiv="Content-Security-Policy"
-            content="upgrade-insecure-requests"
-          />
         </Head>
         <body>
           <Main />

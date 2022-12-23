@@ -55,6 +55,13 @@ instance.interceptors.response.use(responseInterceptor, async (error) => {
   const auth = Cookies.get('currentUser');
   const token = auth?.token;
 
+  if (!error.response) {
+    showNotification({
+      title: 'Error',
+      message: 'Please check your internet connection.',
+    });
+  }
+
   //status===401 && !token is the case for login/register errors
   if (((status === 401 && !token) || status !== 401) && !isRefreshing) {
     const errorMessage = errorKey
@@ -65,7 +72,6 @@ instance.interceptors.response.use(responseInterceptor, async (error) => {
       title: 'Error',
       message: errorMessage,
     });
-    throw new Error(errorMessage);
   }
 
   const refreshToken = auth?.refreshToken;
@@ -76,13 +82,13 @@ instance.interceptors.response.use(responseInterceptor, async (error) => {
       try {
         isRefreshing = true;
         const res = await axios.post(
-          'api/Auth/refresh-token',
+          '/Users/refresh-token',
           {
             token,
             refreshToken,
           },
           {
-            baseURL: process.env.NEXT_PUBLIC_API_URL,
+            baseURL: 'http://170.64.130.211/api/',
             headers: { Authorization: `Bearer ${token}` },
           },
         );

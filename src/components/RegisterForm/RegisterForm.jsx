@@ -1,4 +1,3 @@
-import EmailInput from '@components/EmailInput';
 import {
   PasswordInput,
   Paper,
@@ -7,6 +6,7 @@ import {
   Container,
   Button,
   Box,
+  TextInput,
 } from '@mantine/core';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,24 +14,29 @@ import * as yup from 'yup';
 import Link from 'next/link';
 
 import styles from './RegisterForm.module.scss';
+import { useRegister } from '@hooks/useRegister';
 
 const schema = yup.object().shape({
-  email: yup
-    .string()
-    .email('Should be a valid email address.')
-    .required('Email is required'),
+  userName: yup.string().required('Username is required'),
+  nameSurname: yup.string().required('Name & Surname is required'),
   password: yup.string().required('Password is required'),
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
 
 const RegisterForm = () => {
-  const { register, setValue, handleSubmit, formState } = useForm({
+  const { createUser } = useRegister();
+  const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
 
   const { errors } = formState;
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    createUser(data).then((res) => router.push('/profile'));
+  };
 
   return (
     <Container mih="100vh" display="flex">
@@ -53,23 +58,36 @@ const RegisterForm = () => {
 
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <EmailInput
-              label="Email"
-              placeholder="you@mantine.dev"
-              onInputChange={(value) => {
-                setValue(`email`, value, {
-                  shouldValidate: true,
-                  shouldDirty: true,
-                });
-              }}
-              error={errors?.email?.message}
+            <TextInput
+              label="Username"
+              placeholder="Your username"
+              autoComplete="username"
+              {...register('userName')}
+              error={errors?.userName?.message}
+            />
+            <TextInput
+              label="Name & Surname"
+              placeholder="Your name & surname"
+              autoComplete="nameSurname"
+              mt="md"
+              {...register('nameSurname')}
+              error={errors?.nameSurname?.message}
             />
             <PasswordInput
               label="Password"
               placeholder="Your password"
               mt="md"
+              autoComplete="new-password"
               {...register('password')}
               error={errors?.password?.message}
+            />
+            <PasswordInput
+              label="Password Confirmation"
+              placeholder="Your password confirmation"
+              mt="md"
+              autoComplete="new-password"
+              {...register('passwordConfirmation')}
+              error={errors?.passwordConfirmation?.message}
             />
 
             <Button type="submit" fullWidth mt="xl">
