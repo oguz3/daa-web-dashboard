@@ -15,6 +15,10 @@ export default function Home() {
       <Link href="/auth/login">
         <Button>Login</Button>
       </Link>
+
+      <Link href="/dashboard">
+        <Button ml="md">Dashboard</Button>
+      </Link>
     </>
   );
 }

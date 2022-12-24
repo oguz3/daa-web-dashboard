@@ -15,6 +15,7 @@ import Link from 'next/link';
 
 import styles from './LoginForm.module.scss';
 import { useLogin } from 'src/hooks/useLogin';
+import { useState } from 'react';
 
 const schema = yup.object().shape({
   userName: yup.string().required('Username is required'),
@@ -27,11 +28,18 @@ const LoginForm = () => {
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
-
   const { errors } = formState;
 
+  const [loading, setLoading] = useState(false);
+
   const onSubmit = (data) => {
-    login(data).then((res) => router.push('/profile'));
+    setLoading(true);
+
+    login(data).then((res) => {
+      router.push('/profile');
+    });
+
+    setLoading(false);
   };
 
   return (
@@ -70,7 +78,7 @@ const LoginForm = () => {
               error={errors?.password?.message}
             />
 
-            <Button type="submit" fullWidth mt="xl">
+            <Button type="submit" fullWidth mt="xl" loading={loading}>
               Sign in
             </Button>
           </form>
