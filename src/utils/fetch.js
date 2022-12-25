@@ -30,7 +30,7 @@ const responseInterceptor = ({ data }) => {
 
 const instance = axios.create({
   ...config,
-  baseURL: 'https://ensarkavak.fun/api/',
+  baseURL: 'https://170.64.130.211/api/',
 });
 
 instance.interceptors.request.use(requestInterceptor, (error) => {
@@ -88,7 +88,7 @@ instance.interceptors.response.use(responseInterceptor, async (error) => {
             refreshToken,
           },
           {
-            baseURL: 'https://ensarkavak.fun/api/',
+            baseURL: 'https://170.64.130.211/api/',
             headers: { Authorization: `Bearer ${token}` },
           },
         );
