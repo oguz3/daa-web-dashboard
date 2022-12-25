@@ -6,7 +6,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://170.64.130.211/:path*',
+        destination: 'https://ensarkavak.fun/:path*',
       },
     ];
   },
