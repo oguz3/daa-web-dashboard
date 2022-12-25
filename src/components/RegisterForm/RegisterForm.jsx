@@ -15,6 +15,7 @@ import Link from 'next/link';
 
 import styles from './RegisterForm.module.scss';
 import { useRegister } from '@hooks/useRegister';
+import { showNotification } from '@mantine/notifications';
 
 const schema = yup.object().shape({
   userName: yup.string().required('Username is required'),
@@ -35,7 +36,14 @@ const RegisterForm = () => {
   const { errors } = formState;
 
   const onSubmit = (data) => {
-    createUser(data).then((res) => router.push('/profile'));
+    createUser(data).then((res) => {
+      showNotification({
+        title: 'Success',
+        message: "You've successfully registered",
+      });
+
+      router.push('/dashboard');
+    });
   };
 
   return (

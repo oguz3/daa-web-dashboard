@@ -16,6 +16,7 @@ import Link from 'next/link';
 import styles from './LoginForm.module.scss';
 import { useLogin } from 'src/hooks/useLogin';
 import { useState } from 'react';
+import { showNotification } from '@mantine/notifications';
 
 const schema = yup.object().shape({
   userName: yup.string().required('Username is required'),
@@ -36,7 +37,12 @@ const LoginForm = () => {
     setLoading(true);
 
     login(data).then((res) => {
-      router.push('/profile');
+      showNotification({
+        title: 'Success',
+        message: "You've successfully logged in",
+      });
+
+      router.push('/dashboard');
     });
 
     setLoading(false);

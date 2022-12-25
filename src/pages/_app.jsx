@@ -20,12 +20,11 @@ export default function App(props) {
         withGlobalStyles
         withNormalizeCSS
         theme={{
-          /** Put your mantine theme override here */
           fontFamily: 'Inter, sans-serif',
           colorScheme: 'light',
         }}
       >
-        <NotificationsProvider>
+        <NotificationsProvider position="top-right">
           <RouterTransition />
           <Component {...pageProps} />
         </NotificationsProvider>
