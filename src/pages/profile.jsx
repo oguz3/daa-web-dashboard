@@ -1,25 +1,28 @@
+import { Button, Container, Text } from '@mantine/core';
 import { useRouter } from 'next/router';
-import { useCurrentUser } from 'src/hooks/useCurrentUser';
-import { useLogout } from 'src/hooks/useLogout';
+import { useAuthContext } from 'src/context/authContext';
 
 export default function Profile() {
-  const { user: currentUser } = useCurrentUser();
-  const { logout } = useLogout();
-  const router = useRouter();
+  const { user, logout } = useAuthContext();
 
   return (
-    <div>
-      <p>Welcome back</p>
-      <div>You are: {currentUser?.username}</div>
+    <Container mt={20}>
+      <Text>Welcome</Text>
+      <div>
+        <Text>You are:</Text>
+        <Text>id: {user?.id}</Text>
+        <Text>Username: {user?.userName}</Text>
+        <Text>Name Surname: {user?.nameSurname}</Text>
+      </div>
 
-      <button
+      <Button
+        mt={20}
         onClick={() => {
           logout();
-          router.push('/login');
         }}
       >
         Logout
-      </button>
-    </div>
+      </Button>
+    </Container>
   );
 }

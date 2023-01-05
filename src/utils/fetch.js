@@ -8,9 +8,17 @@ const config = {
   validateStatus: (status) => status >= 200 && status < 300, // default
 };
 
+const getUserFromLocalStorage = () => {
+  try {
+    return JSON.parse(Cookies.get('user') || '');
+  } catch (error) {
+    return null;
+  }
+};
+
 const requestInterceptor = (config) => {
-  const auth = Cookies.get('currentUser');
-  const token = auth?.token || null;
+  const auth = getUserFromLocalStorage();
+  const token = auth?.accessToken || null;
 
   config.headers = {
     ...config.headers,
@@ -52,8 +60,8 @@ instance.interceptors.response.use(responseInterceptor, async (error) => {
   const errorKey = error?.response?.data?.error;
   const status = error?.response?.status;
 
-  const auth = Cookies.get('currentUser');
-  const token = auth?.token;
+  const auth = getUserFromLocalStorage();
+  const token = auth?.accessToken;
 
   if (!error.response) {
     showNotification({
@@ -81,8 +89,8 @@ instance.interceptors.response.use(responseInterceptor, async (error) => {
     if (!isRefreshing) {
       try {
         isRefreshing = true;
-        const res = await axios.post(
-          '/Users/refresh-token',
+        const res = await axios.put(
+          '/Users/RefreshTokenLogin',
           {
             token,
             refreshToken,
@@ -93,10 +101,10 @@ instance.interceptors.response.use(responseInterceptor, async (error) => {
           },
         );
         isRefreshing = false;
-        onRefreshed(res.data.token);
-        originalRequest.headers.Authorization = `Bearer ${res.data.token}`;
+        onRefreshed(res.data.accessToken);
+        originalRequest.headers.Authorization = `Bearer ${res.data.accessToken}`;
         const newAuth = { ...auth, ...res.data };
-        Cookies.set('currentUser', JSON.stringify(newAuth));
+        Cookies.set('user', JSON.stringify(newAuth));
         subscribers = [];
         return Promise.resolve(instance(originalRequest));
       } catch (error) {

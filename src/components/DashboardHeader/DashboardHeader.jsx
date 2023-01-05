@@ -16,6 +16,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import Logo from '@components/Logo';
 import Link from 'next/link';
+import { useAuthContext } from 'src/context/authContext';
 
 const HEADER_HEIGHT = 72;
 
@@ -133,6 +134,7 @@ const links = [
 ];
 
 const DashboardHeader = () => {
+  const { user } = useAuthContext();
   const [opened, { toggle, close }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].link);
   const { classes, cx } = useStyles();
@@ -143,7 +145,13 @@ const DashboardHeader = () => {
         <Link key={link.label} href={link.link}>
           <UnstyledButton className={classes.profileCard}>
             <Avatar color="green" radius="xl">
-              E
+              <span
+                style={{
+                  textTransform: 'uppercase',
+                }}
+              >
+                {user?.userName[0]}
+              </span>
             </Avatar>
             <Text className={classes.profileCardText}>Profile</Text>
           </UnstyledButton>

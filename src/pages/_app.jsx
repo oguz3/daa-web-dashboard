@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { RouterTransition } from '@components/RouterTransition';
+import { AuthProvider } from 'src/context/authContext';
 
 export default function App(props) {
   const { Component, pageProps } = props;
@@ -26,7 +27,9 @@ export default function App(props) {
       >
         <NotificationsProvider position="top-right">
           <RouterTransition />
-          <Component {...pageProps} />
+          <AuthProvider>
+            <Component {...pageProps} />
+          </AuthProvider>
         </NotificationsProvider>
       </MantineProvider>
     </>

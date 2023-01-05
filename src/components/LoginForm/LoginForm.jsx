@@ -14,9 +14,10 @@ import * as yup from 'yup';
 import Link from 'next/link';
 
 import styles from './LoginForm.module.scss';
-import { useLogin } from 'src/hooks/useLogin';
 import { useState } from 'react';
 import { showNotification } from '@mantine/notifications';
+import { useRouter } from 'next/router';
+import { useAuthContext } from 'src/context/authContext';
 
 const schema = yup.object().shape({
   userName: yup.string().required('Username is required'),
@@ -24,7 +25,9 @@ const schema = yup.object().shape({
 });
 
 const LoginForm = () => {
-  const { login } = useLogin();
+  const router = useRouter();
+  const { login } = useAuthContext();
+
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',
