@@ -1,6 +1,11 @@
 import React from 'react';
-import { Box, createStyles, Text, Title } from '@mantine/core';
-import { IconCalendar, IconClockHour8 } from '@tabler/icons';
+import { Box, Button, createStyles, Text, Title } from '@mantine/core';
+
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+import { DropTarget } from './dropable';
+import { DraggableComponent } from './draggable';
+import { useLayoutStore } from 'src/context/layoutStore';
 
 const useStyles = createStyles((theme, _params) => {
   return {
@@ -11,6 +16,7 @@ const useStyles = createStyles((theme, _params) => {
     },
 
     content: {
+      position: 'relative',
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
@@ -19,10 +25,24 @@ const useStyles = createStyles((theme, _params) => {
       justifyContent: 'center',
     },
 
+    buttons: {
+      position: 'absolute',
+      top: 20,
+      right: 20,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
     mirrorWrapper: {
       width: '80%',
       height: 'auto',
       aspectRatio: '16/9',
+      display: 'grid',
+      gridTemplateColumns: '1fr 2fr 1fr',
+      gridTemplateRows: '1fr 2fr 1fr',
+      gap: '4px',
       borderRadius: theme.radius.lg,
       padding: theme.spacing.md,
       backgroundColor:
@@ -31,25 +51,14 @@ const useStyles = createStyles((theme, _params) => {
           : theme.colors.gray[9],
     },
 
-    mirror: {
+    mirrorCell: {
       width: '100%',
       height: '100%',
-      borderRadius: theme.radius.md,
-      backgroundColor: 'white',
-      display: 'grid',
-      gridTemplateColumns: '0.35fr 1fr 0.35fr',
-    },
-
-    centerSide: {
-      width: '100%',
-      height: '100%',
-      border: `1px dashed ${
+      border: `1px solid ${
         theme.colorScheme === 'dark'
           ? theme.colors.dark[4]
-          : theme.colors.gray[6]
+          : theme.colors.gray[2]
       }`,
-      borderTop: 'none',
-      borderBottom: 'none',
     },
 
     elementSidebar: {
@@ -100,43 +109,55 @@ const useStyles = createStyles((theme, _params) => {
 const BuilderScreen = () => {
   const { classes } = useStyles();
 
+  const layout = useLayoutStore((state) => state.layout);
+
   return (
-    <Box className={classes.builder}>
-      <Box className={classes.content}>
-        <Title order={2} mb="16px" fw={700} fz="24px">
-          Mirror Preview
-        </Title>
-        <Box className={classes.mirrorWrapper}>
-          <Box className={classes.mirror}>
-            <Box className={classes.leftSide}></Box>
-            <Box className={classes.centerSide}></Box>
-            <Box className={classes.rightSide}></Box>
+    <DndProvider backend={HTML5Backend}>
+      <Box className={classes.builder}>
+        <Box className={classes.content}>
+          <Box className={classes.buttons}>
+            <Button
+              variant="outline"
+              color="blue"
+              onClick={() => {
+                console.log(layout);
+              }}
+            >
+              Save
+            </Button>
+          </Box>
+          <Title order={2} mb="16px" fw={700} fz="24px">
+            Mirror Preview
+          </Title>
+          <Box className={classes.mirrorWrapper}>
+            {!layout
+              ? null
+              : Object.keys(layout).map((key) => {
+                  return (
+                    <DropTarget
+                      key={key}
+                      positionKey={key}
+                      elementName={layout[key]?.name}
+                    />
+                  );
+                })}
+          </Box>
+        </Box>
+        <Box className={classes.elementSidebar}>
+          <Title fz="18px" fw={600} order={4}>
+            Elements
+          </Title>
+          <Text fz="12px" mt="4px">
+            Drag and drop elements from the sidebar to the mirror to see them in
+          </Text>
+          <Box className={classes.elementsWrapper}>
+            <DraggableComponent sidebar key={'clock'} name={'clock'} />
+
+            <DraggableComponent sidebar key={'calendar'} name={'calendar'} />
           </Box>
         </Box>
       </Box>
-      <Box className={classes.elementSidebar}>
-        <Title fz="18px" fw={600} order={4}>
-          Elements
-        </Title>
-        <Text fz="12px" mt="4px">
-          Drag and drop elements from the sidebar to the mirror to see them in
-        </Text>
-        <Box className={classes.elementsWrapper}>
-          <Box className={classes.element}>
-            <IconClockHour8 />
-            <Text fz="xs" mt="4px">
-              Clock
-            </Text>
-          </Box>
-          <Box className={classes.element}>
-            <IconCalendar />
-            <Text fz="xs" mt="4px">
-              Calendar
-            </Text>
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+    </DndProvider>
   );
 };
 

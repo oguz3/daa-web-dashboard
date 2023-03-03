@@ -78,7 +78,7 @@ const Logo = ({ width = 1000, height = 623 }) => {
                                                 opacity="1"
                                                 transform="matrix(1,0,0,1,0,0)"
                                                 fill="#000000"
-                                                class="undefined-text-0"
+                                                className="undefined-text-0"
                                                 data-fill-palette-color="primary"
                                                 id="text-0"
                                               ></path>

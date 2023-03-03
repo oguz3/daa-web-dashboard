@@ -1,7 +1,7 @@
 import BuilderLayout from '@components/BuilderLayout';
-import BuilderScreen from '@components/BuilderScreen';
-import { Box } from '@mantine/core';
 import Head from 'next/head';
+
+import BuilderScreen from '@components/BuilderScreen';
 
 export default function Builder() {
   return (
