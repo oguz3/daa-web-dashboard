@@ -15,6 +15,20 @@ import WelcomeBanner from '@components/WelcomeBanner';
 import MirrorCard from '@components/MirrorCard';
 
 export default function Dashboard() {
+
+  const getLayouts = async () => {
+    const layouts = await fetch(`/Mirrors`, {
+      method: 'GET',
+    });
+  }
+
+  const getLayoutById = async (layoutId) => {
+    const layout = await fetch(`/Mirrors/${layoutId}`, {
+      method: 'GET',
+    });
+  }
+
+
   return (
     <>
       <Head>
