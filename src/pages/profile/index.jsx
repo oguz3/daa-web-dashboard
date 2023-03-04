@@ -1,6 +1,5 @@
 import { Button, Container, Text } from '@mantine/core';
-import { useRouter } from 'next/router';
-import { useAuthContext } from 'src/context/authContext';
+import { useAuthContext } from '@context/authContext';
 
 export default function Profile() {
   const { user, logout } = useAuthContext();

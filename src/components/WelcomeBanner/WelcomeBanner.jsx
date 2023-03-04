@@ -1,5 +1,5 @@
 import { Box, Container, createStyles, Text, Title } from '@mantine/core';
-import { useAuthContext } from 'src/context/authContext';
+import { useAuthContext } from '@context/authContext';
 
 const useStyles = createStyles((theme, _params) => {
   return {

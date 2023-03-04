@@ -1,0 +1,20 @@
+.clock {
+  font-size: 12px;
+  font-weight: 700;
+
+  @media screen and (min-width: 768px) {
+    font-size: 14px;
+  }
+  @media screen and (min-width: 976px) {
+    font-size: 16px;
+  }
+  @media screen and (min-width: 1280px) {
+    font-size: 20px;
+  }
+  @media screen and (min-width: 1440px) {
+    font-size: 24px;
+  }
+  @media screen and (min-width: 1640px) {
+    font-size: 32px;
+  }
+}

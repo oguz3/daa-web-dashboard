@@ -1,7 +1,8 @@
 import { IconCalendar, IconClockHour8 } from '@tabler/icons';
 import { Box, createStyles, Text } from '@mantine/core';
 import { useDrag } from 'react-dnd';
-import { useLayoutStore } from 'src/context/layoutStore';
+
+import { useLayoutStore } from '@store/layoutStore';
 
 const useStyles = createStyles((theme, _params) => {
   return {
@@ -37,7 +38,7 @@ const IconKey = {
   clock: IconClockHour8,
 };
 
-export const DraggableComponent = ({ sidebar, name }) => {
+const DraggableComponent = ({ sidebar, name }) => {
   const { classes, cx } = useStyles();
 
   const updateLayout = useLayoutStore((state) => state.updateLayout);
@@ -70,3 +71,5 @@ export const DraggableComponent = ({ sidebar, name }) => {
     </Box>
   );
 };
+
+export default DraggableComponent;

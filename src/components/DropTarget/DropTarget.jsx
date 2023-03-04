@@ -1,7 +1,7 @@
 import { useDrop } from 'react-dnd';
-import DraggableComponent from './draggable';
+import getElement from '@elements/getElement';
 
-export const DropTarget = ({ positionKey, elementName }) => {
+const DropTarget = ({ positionKey, element }) => {
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: 'element',
     drop: () => ({ position: positionKey }),
@@ -13,7 +13,7 @@ export const DropTarget = ({ positionKey, elementName }) => {
 
   const isActive = canDrop && isOver;
 
-  const backgroundColor = isActive ? 'lightgreen' : 'white';
+  const backgroundColor = isActive ? '#90ee908c' : 'black';
 
   return (
     <div
@@ -23,12 +23,15 @@ export const DropTarget = ({ positionKey, elementName }) => {
         height: '100%',
         transition: 'all 0.4s ease',
         backgroundColor: backgroundColor,
+        color: 'white',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
-      {elementName ? <>{elementName}</> : null}
+      {element ? getElement(element) : null}
     </div>
   );
 };
+
+export default DropTarget;

@@ -5,11 +5,14 @@
       "@assets/*": ["./public/assets/*"],
       "@styles/*": ["./src/styles/*"],
       "@components/*": ["./src/components/*"],
+      "@elements/*": ["./src/elements/*"],
       "@pages/*": ["./src/pages/*"],
       "@utils/*": ["./src/utils/*"],
       "@services/*": ["./src/services/*"],
       "@hooks/*": ["./src/hooks/*"],
-      "@router/*": ["./src/router/*"]
+      "@router/*": ["./src/router/*"],
+      "@context/*": ["./src/context/*"],
+      "@store/*": ["./src/store/*"]
     }
   }
 }
