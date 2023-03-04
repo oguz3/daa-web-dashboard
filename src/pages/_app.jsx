@@ -1,8 +1,10 @@
 import Head from 'next/head';
 import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
+
 import { RouterTransition } from '@components/RouterTransition';
-import { AuthProvider } from 'src/context/authContext';
+
+import { AuthProvider } from '@context/authContext';
 
 export default function App(props) {
   const { Component, pageProps } = props;

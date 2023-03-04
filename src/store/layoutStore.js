@@ -3,6 +3,7 @@ import { create } from 'zustand';
 
 export const useLayoutStore = create((set) => ({
   layout: layout,
+  showGrid: true,
   updateLayout: (name, position) =>
     set((state) => {
       if (!name) return;
@@ -19,4 +20,6 @@ export const useLayoutStore = create((set) => ({
 
       return { layout: newLayoutData };
     }),
+
+  updateGrid: (showGrid) => set({ showGrid: showGrid }),
 }));

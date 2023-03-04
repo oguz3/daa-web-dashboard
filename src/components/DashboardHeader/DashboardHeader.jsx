@@ -16,7 +16,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import Logo from '@components/Logo';
 import Link from 'next/link';
-import { useAuthContext } from 'src/context/authContext';
+import { useAuthContext } from '@context/authContext';
 
 const HEADER_HEIGHT = 72;
 

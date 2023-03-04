@@ -108,7 +108,8 @@ instance.interceptors.response.use(responseInterceptor, async (error) => {
         subscribers = [];
         return Promise.resolve(instance(originalRequest));
       } catch (error) {
-        window.location.href = '/login';
+        Cookies.remove('user');
+        window.location.href = '/auth/login';
         return Promise.reject(error);
       }
     }

@@ -15,7 +15,8 @@ import Link from 'next/link';
 
 import styles from './RegisterForm.module.scss';
 import { showNotification } from '@mantine/notifications';
-import { useAuthContext } from 'src/context/authContext';
+import { useAuthContext } from '@context/authContext';
+
 import { useRouter } from 'next/router';
 
 const schema = yup.object().shape({

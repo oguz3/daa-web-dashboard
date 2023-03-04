@@ -17,7 +17,8 @@ import styles from './LoginForm.module.scss';
 import { useState } from 'react';
 import { showNotification } from '@mantine/notifications';
 import { useRouter } from 'next/router';
-import { useAuthContext } from 'src/context/authContext';
+
+import { useAuthContext } from '@context/authContext';
 
 const schema = yup.object().shape({
   userName: yup.string().required('Username is required'),
