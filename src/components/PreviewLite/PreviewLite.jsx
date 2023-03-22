@@ -1,17 +1,14 @@
 import React from 'react';
 import { Box, createStyles } from '@mantine/core';
-import DropTarget from '@components/DropTarget';
 
 import { useLayoutStore } from '@store/layoutStore';
+import getElement from '@elements/getElement';
 
 const useStyles = createStyles((theme, _params) => {
   return {
     mirror: {
-      maxWidth: '980px',
-      width: '90%',
-      height: 'auto',
-      aspectRatio: '16/9',
-      borderRadius: theme.radius.lg,
+      width: '100vw',
+      height: '100vh',
       padding: theme.spacing.md,
       backgroundColor: 'black',
     },
@@ -22,36 +19,39 @@ const useStyles = createStyles((theme, _params) => {
       display: 'grid',
       gridTemplateColumns: '1fr 2fr 1fr',
       gridTemplateRows: '1fr 2fr 1fr',
-      backgroundColor: 'gray',
-      border: '1px solid gray',
+      backgroundColor: 'black',
       overflow: 'hidden',
-      borderRadius: theme.radius.md,
-    },
-
-    withGap: {
-      gap: '1px',
+      color: 'white',
     },
   };
 });
 
-const Preview = () => {
+const PreviewLite = () => {
   const { classes, cx } = useStyles();
 
   const layout = useLayoutStore((state) => state?.selectedMirror?.layout);
-  const showGrid = useLayoutStore((state) => state.showGrid);
+
+  console.log(layout);
 
   return (
     <Box className={classes.mirror}>
-      <Box
-        className={cx(classes.mirrorWrapper, {
-          [classes.withGap]: showGrid,
-        })}
-      >
+      <Box className={cx(classes.mirrorWrapper)}>
         {!layout
           ? null
           : Object.keys(layout).map((key) => {
               return (
-                <DropTarget key={key} positionKey={key} element={layout[key]} />
+                <div
+                  key={key}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {layout[key] ? getElement(layout[key]) : null}
+                </div>
               );
             })}
       </Box>
@@ -59,4 +59,4 @@ const Preview = () => {
   );
 };
 
-export default Preview;
+export default PreviewLite;

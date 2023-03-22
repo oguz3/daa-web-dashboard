@@ -7,6 +7,8 @@ import dynamic from 'next/dynamic';
 import AddNewElementSidebar from '@components/AddNewElementSidebar';
 
 import { useLayoutStore } from '@store/layoutStore';
+import { useRouter } from 'next/router';
+import { showNotification } from '@mantine/notifications';
 
 const Preview = dynamic(() => import('@components/Preview'), {
   ssr: false,
@@ -43,13 +45,29 @@ const useStyles = createStyles((theme, _params) => {
   };
 });
 
-const BuilderScreen = () => {
+const BuilderScreen = ({ id }) => {
+  const router = useRouter();
   const { classes } = useStyles();
-
-  const layout = useLayoutStore((state) => state.layout);
 
   const showGrid = useLayoutStore((state) => state.showGrid);
   const updateGrid = useLayoutStore((state) => state.updateGrid);
+  const saveMirror = useLayoutStore((state) => state.saveMirror);
+
+  const handleSave = () => {
+    saveMirror()
+      .then(() => {
+        showNotification({
+          title: 'Başarılı',
+          message: 'Ayna başarıyla kaydedildi',
+        });
+      })
+      .catch(() => {
+        showNotification({
+          title: 'Hata',
+          message: 'Bir hata oluştu',
+        });
+      });
+  };
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -68,10 +86,15 @@ const BuilderScreen = () => {
             <Button
               variant="outline"
               color="blue"
+              disabled={!id}
               onClick={() => {
-                console.log(layout);
+                if (!id) return;
+                router.push(`/mirror/${id}/preview`);
               }}
             >
+              Preview
+            </Button>
+            <Button color="blue" onClick={handleSave}>
               Save
             </Button>
           </Box>

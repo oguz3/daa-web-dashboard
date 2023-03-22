@@ -1,33 +1,29 @@
 import Head from 'next/head';
 
-import {
-  Anchor,
-  Button,
-  Container,
-  Divider,
-  Grid,
-  Text,
-  Title,
-} from '@mantine/core';
-import Link from 'next/link';
+import { Button, Container, Divider, Grid, Text, Title } from '@mantine/core';
 import DashboardHeader from '@components/DashboardHeader';
 import WelcomeBanner from '@components/WelcomeBanner';
 import MirrorCard from '@components/MirrorCard';
+import { useEffect } from 'react';
+import { useLayoutStore } from '../../store/layoutStore';
+import { useRouter } from 'next/router';
+import { showNotification } from '@mantine/notifications';
+
+import MirrorImage from '../../../public/assets/mirror-dummy.jpg';
 
 export default function Dashboard() {
+  const router = useRouter();
 
-  const getLayouts = async () => {
-    const layouts = await fetch(`/Mirrors`, {
-      method: 'GET',
-    });
-  }
+  const getAllMirrors = useLayoutStore((state) => state.getAllMirrors);
+  const getMirrorById = useLayoutStore((state) => state.getMirrorById);
+  const createMirror = useLayoutStore((state) => state.createMirror);
+  const deleteMirror = useLayoutStore((state) => state.deleteMirror);
 
-  const getLayoutById = async (layoutId) => {
-    const layout = await fetch(`/Mirrors/${layoutId}`, {
-      method: 'GET',
-    });
-  }
+  const mirrors = useLayoutStore((state) => state.mirrors);
 
+  useEffect(() => {
+    getAllMirrors();
+  }, [getAllMirrors]);
 
   return (
     <>
@@ -48,17 +44,59 @@ export default function Dashboard() {
           You can edit your mirrors here. If you want to create a new mirror,
           you can do so by clicking the create button.
         </Text>
+        <Button
+          onClick={() => {
+            createMirror()
+              .then(() => {
+                showNotification({
+                  title: 'Başarılı',
+                  message: 'Ayna başarıyla oluşturuldu',
+                });
+              })
+              .catch(() => {
+                showNotification({
+                  title: 'Hata',
+                  message: 'Ayna oluşturulurken bir hata oluştu',
+                });
+              });
+          }}
+          mt="md"
+        >
+          Create mirror
+        </Button>
 
-        <Divider mb="xl" mt="md" />
+        <Divider mb="xl" mt="xl" />
 
         <Grid>
-          <Grid.Col span={4}>
-            <MirrorCard
-              image="https://images.unsplash.com/photo-1581889470536-467bdbe30cd0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80"
-              title="Home mirror"
-              description="56 km this month • 17% improvement compared to last month • 443 place in global scoreboard"
-            />
-          </Grid.Col>
+          {mirrors && !!mirrors.length
+            ? mirrors.map((mirror) => (
+                <Grid.Col key={mirror.id} span={4}>
+                  <MirrorCard
+                    image={MirrorImage.src}
+                    title={mirror.layoutName}
+                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                    handlePreview={() =>
+                      getMirrorById(mirror.id).then(() => {
+                        router.push(`/mirror/${mirror.id}/preview`);
+                      })
+                    }
+                    handleEdit={() =>
+                      getMirrorById(mirror.id).then(() => {
+                        router.push(`/mirror/${mirror.id}/builder`);
+                      })
+                    }
+                    handleDelete={() =>
+                      deleteMirror(mirror.id).then(() => {
+                        showNotification({
+                          title: 'Başarılı',
+                          message: 'Ayna başarıyla silindi',
+                        });
+                      })
+                    }
+                  />
+                </Grid.Col>
+              ))
+            : null}
         </Grid>
       </Container>
     </>

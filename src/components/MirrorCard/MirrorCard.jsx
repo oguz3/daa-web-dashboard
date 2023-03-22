@@ -7,8 +7,7 @@ import {
   Avatar,
   ActionIcon,
 } from '@mantine/core';
-import { IconEdit } from '@tabler/icons';
-import Link from 'next/link';
+import { IconEdit, IconEye, IconTrash } from '@tabler/icons';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -17,6 +16,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   footer: {
+    gap: theme.spacing.xs,
     paddingTop: theme.spacing.md,
     borderTop: `1px solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
@@ -30,7 +30,14 @@ const avatars = [
   'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80',
 ];
 
-const MirrorCard = ({ image, title, description }) => {
+const MirrorCard = ({
+  image,
+  title,
+  description,
+  handlePreview,
+  handleEdit,
+  handleDelete,
+}) => {
   const { classes } = useStyles();
 
   return (
@@ -55,11 +62,22 @@ const MirrorCard = ({ image, title, description }) => {
           <Avatar radius="xl">+5</Avatar>
         </Avatar.Group>
 
-        <Link href="/mirror/builder">
-          <ActionIcon variant="default" size={32}>
-            <IconEdit size={18} />
-          </ActionIcon>
-        </Link>
+        <ActionIcon
+          onClick={handleDelete}
+          variant="default"
+          size={32}
+          style={{ marginLeft: 'auto' }}
+        >
+          <IconTrash color="red" size={18} />
+        </ActionIcon>
+
+        <ActionIcon onClick={handlePreview} variant="default" size={32}>
+          <IconEye size={18} />
+        </ActionIcon>
+
+        <ActionIcon onClick={handleEdit} variant="default" size={32}>
+          <IconEdit size={18} />
+        </ActionIcon>
       </Group>
     </Card>
   );
