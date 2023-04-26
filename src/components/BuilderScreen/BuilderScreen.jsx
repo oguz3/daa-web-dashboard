@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, createStyles, Title } from '@mantine/core';
+import { Box, Button, createStyles, Drawer, Title } from '@mantine/core';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import dynamic from 'next/dynamic';
@@ -51,6 +51,7 @@ const BuilderScreen = ({ id }) => {
 
   const showGrid = useLayoutStore((state) => state.showGrid);
   const updateGrid = useLayoutStore((state) => state.updateGrid);
+
   const saveMirror = useLayoutStore((state) => state.saveMirror);
 
   const handleSave = () => {

@@ -12,7 +12,8 @@
       "@hooks/*": ["./src/hooks/*"],
       "@router/*": ["./src/router/*"],
       "@context/*": ["./src/context/*"],
-      "@store/*": ["./src/store/*"]
+      "@store/*": ["./src/store/*"],
+      "@constants/*": ["./src/constants/*"]
     }
   }
 }

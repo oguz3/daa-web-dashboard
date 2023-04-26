@@ -1,15 +1,42 @@
 import { layout } from 'src/data/dummy';
 import { create } from 'zustand';
 import fetch from '@utils/fetch';
+import { ElementInitialValue } from '@constants/ElementInitialValue';
 
 export const useLayoutStore = create((set, get) => ({
   mirrors: [],
   selectedMirror: null,
   showGrid: true,
-  updateLayout: (name, position) =>
+  drawer: {
+    open: false,
+    elementName: null,
+  },
+  openDrawer: (elementName) => {
+    set({
+      drawer: {
+        open: true,
+        elementName,
+      },
+    });
+  },
+  resetDrawer: () => {
+    set({
+      drawer: {
+        open: false,
+        elementName: null,
+      },
+    });
+  },
+  updateGrid: (showGrid) => set({ showGrid: showGrid }),
+  updateLayout: (name, position) => {
+    if (!name) return;
+
+    const element = ElementInitialValue[name];
+    if (!element) return;
+
     set((state) => {
-      if (!name) return;
       if (!state.selectedMirror.layout) return;
+
       const newLayoutData = JSON.parse(
         JSON.stringify(state.selectedMirror.layout),
       );
@@ -18,17 +45,57 @@ export const useLayoutStore = create((set, get) => ({
           newLayoutData[key] = false;
         }
       });
-      newLayoutData[position] = {
-        name: name,
-        style: 'default',
-      };
+      newLayoutData[position] = element;
 
       return {
         selectedMirror: { ...state.selectedMirror, layout: newLayoutData },
       };
-    }),
+    });
+  },
+  updateElement: (name, attr) => {
+    if (!name) return;
 
-  updateGrid: (showGrid) => set({ showGrid: showGrid }),
+    set((state) => {
+      if (!state.selectedMirror.layout) return;
+
+      const newLayoutData = JSON.parse(
+        JSON.stringify(state.selectedMirror.layout),
+      );
+      Object.keys(newLayoutData).forEach((key) => {
+        if (newLayoutData[key] && newLayoutData[key].name === name) {
+          newLayoutData[key] = {
+            ...newLayoutData[key],
+            attr: { ...newLayoutData[key]?.attr, ...attr },
+          };
+        }
+      });
+
+      return {
+        selectedMirror: { ...state.selectedMirror, layout: newLayoutData },
+      };
+    });
+  },
+  deleteElement: (name) => {
+    if (!name) return;
+
+    set((state) => {
+      if (!state.selectedMirror.layout) return;
+
+      const newLayoutData = JSON.parse(
+        JSON.stringify(state.selectedMirror.layout),
+      );
+
+      Object.keys(newLayoutData).forEach((key) => {
+        if (newLayoutData[key] && newLayoutData[key].name === name) {
+          newLayoutData[key] = false;
+        }
+      });
+
+      return {
+        selectedMirror: { ...state.selectedMirror, layout: newLayoutData },
+      };
+    });
+  },
   getAllMirrors: async () => {
     const data = await fetch(`/Mirrors`, {
       method: 'GET',
@@ -74,7 +141,7 @@ export const useLayoutStore = create((set, get) => ({
   },
   saveMirror: async () => {
     const selected = get().selectedMirror;
-    const response = await fetch(`/Mirrors`, {
+    await fetch(`/Mirrors`, {
       method: 'PUT',
       data: {
         layout: JSON.stringify(selected.layout),

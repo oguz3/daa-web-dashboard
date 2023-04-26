@@ -31,8 +31,6 @@ const PreviewLite = () => {
 
   const layout = useLayoutStore((state) => state?.selectedMirror?.layout);
 
-  console.log(layout);
-
   return (
     <Box className={classes.mirror}>
       <Box className={cx(classes.mirrorWrapper)}>
