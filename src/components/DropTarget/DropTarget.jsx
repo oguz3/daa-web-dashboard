@@ -1,5 +1,6 @@
 import { useDrop } from 'react-dnd';
-import getElement from '@elements/getElement';
+
+import ElementBase from '@elements/ElementBase';
 
 const DropTarget = ({ positionKey, element }) => {
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
@@ -29,7 +30,7 @@ const DropTarget = ({ positionKey, element }) => {
         justifyContent: 'center',
       }}
     >
-      {element ? getElement(element) : null}
+      {element ? <ElementBase item={element} /> : null}
     </div>
   );
 };

@@ -13,6 +13,12 @@ export function middleware(request) {
   }
 
   if (authRoutes.includes(request.nextUrl.pathname) && user) {
-    return NextResponse.redirect(new URL('/profile', request.url));
+    return NextResponse.redirect(new URL('/dashboard', request.url));
+  }
+
+  if (request.nextUrl.pathname === '/') {
+    if (user) return NextResponse.redirect(new URL('/dashboard', request.url));
+
+    return NextResponse.redirect(new URL('/auth/login', request.url));
   }
 }

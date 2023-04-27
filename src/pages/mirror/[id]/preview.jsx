@@ -15,7 +15,6 @@ export default function Builder() {
   useEffect(() => {
     if (!id) return;
     if (!selectedMirror || selectedMirror.id !== id) {
-      console.log(id);
       getMirrorById(id);
     }
   }, [router, selectedMirror, getMirrorById, id]);
