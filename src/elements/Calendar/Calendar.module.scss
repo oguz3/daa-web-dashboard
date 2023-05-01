@@ -1,4 +1,4 @@
-.clock {
+.calendar {
   font-size: 12px;
   font-weight: 700;
 
@@ -16,5 +16,37 @@
   }
   @media screen and (min-width: 1640px) {
     font-size: 24px;
+  }
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .day {
+    font-family: 'Inter';
+    font-size: clamp(20px, 3.5vw, 58px);
+    line-height: 100%;
+    font-weight: 700;
+    margin: 0px;
+  }
+  .right {
+    margin-left: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    .day_name {
+      font-family: 'Inter';
+      font-size: clamp(12px, 1.25vw, 20px);
+      line-height: 100%;
+      font-weight: 400;
+      margin: 0px 0px 4px 0px;
+    }
+    .year {
+      font-family: 'Inter';
+      font-size: 0.75vw;
+      line-height: 100%;
+      font-weight: 600;
+      margin: 0px;
+    }
   }
 }

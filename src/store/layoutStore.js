@@ -31,7 +31,7 @@ export const useLayoutStore = create((set, get) => ({
   updateLayout: (name, position) => {
     if (!name) return;
 
-    const element = ElementInitialValue[name];
+    let element = ElementInitialValue[name];
     if (!element) return;
 
     set((state) => {
@@ -42,6 +42,7 @@ export const useLayoutStore = create((set, get) => ({
       );
       Object.keys(newLayoutData).forEach((key) => {
         if (newLayoutData[key] && newLayoutData[key].name === name) {
+          element = newLayoutData[key];
           newLayoutData[key] = false;
         }
       });
