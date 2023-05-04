@@ -1,30 +1,49 @@
 import Head from 'next/head';
+import { HubConnectionBuilder } from '@microsoft/signalr';
 
-import { useLayoutStore } from '../../../store/layoutStore';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import PreviewLite from '@components/PreviewLite';
 
 export default function Builder() {
   const router = useRouter();
   const { id } = router.query;
 
-  const selectedMirror = useLayoutStore((state) => state.selectedMirror);
-  const getMirrorById = useLayoutStore((state) => state.getMirrorById);
+  const [layout, setLayout] = useState(null);
+
+  const createHubConnection = useCallback(async () => {
+    if (!id) return;
+
+    const hubCn = new HubConnectionBuilder()
+      .withUrl('https://ensarkavak.fun/layouthub')
+      .build();
+    try {
+      await hubCn.start();
+      console.log(id);
+      hubCn.invoke('SendLayoutId', id);
+
+      hubCn.on('receiveLayout', (layout) => {
+        setLayout(layout);
+      });
+    } catch (e) {
+      console.log('e', e);
+    }
+  }, [id]);
 
   useEffect(() => {
-    if (!id) return;
-    if (!selectedMirror || selectedMirror.id !== id) {
-      getMirrorById(id);
-    }
-  }, [router, selectedMirror, getMirrorById, id]);
+    createHubConnection();
+  }, [createHubConnection]);
+
+  console.log(layout);
 
   return (
     <>
       <Head>
         <title>Builder | DAA</title>
       </Head>
-      <PreviewLite />
+      <PreviewLite
+        layout={layout?.layout ? JSON.parse(layout?.layout) : undefined}
+      />
     </>
   );
 }
