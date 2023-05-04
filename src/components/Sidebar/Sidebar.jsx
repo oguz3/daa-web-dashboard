@@ -91,9 +91,9 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
 const data = [
   { link: '/dashboard', label: 'Dashboard', icon: IconBrandTrello },
-  { link: '/mirror/builder', label: 'Builder', icon: IconAdjustments },
-  { link: '/mirror/users', label: 'Users', icon: IconUsers },
-  { link: '/settings', label: 'Other Settings', icon: IconSettings },
+  { link: '/mirror/[id]/builder', label: 'Builder', icon: IconAdjustments },
+  // { link: '/mirror/users', label: 'Users', icon: IconUsers },
+  { link: '/profile', label: 'Profile', icon: IconUsers },
 ];
 
 const Sidebar = () => {

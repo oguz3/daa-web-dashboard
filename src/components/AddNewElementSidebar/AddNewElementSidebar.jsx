@@ -43,8 +43,8 @@ const AddNewElementSidebar = () => {
       </Text>
       <Box className={classes.elementsWrapper}>
         <DraggableComponent sidebar key={'clock'} name={'clock'} />
-
         <DraggableComponent sidebar key={'calendar'} name={'calendar'} />
+        <DraggableComponent sidebar key={'weather'} name={'weather'} />
       </Box>
     </Box>
   );

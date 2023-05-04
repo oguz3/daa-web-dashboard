@@ -26,10 +26,12 @@ const useStyles = createStyles((theme, _params) => {
   };
 });
 
-const PreviewLite = () => {
+const PreviewLite = (props) => {
   const { classes, cx } = useStyles();
 
-  const layout = useLayoutStore((state) => state?.selectedMirror?.layout);
+  const storeLayout = useLayoutStore((state) => state?.selectedMirror?.layout);
+
+  const layout = props?.layout || storeLayout;
 
   return (
     <Box className={classes.mirror}>
