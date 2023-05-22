@@ -1,4 +1,9 @@
-import { IconCalendar, IconClockHour8, IconCloud } from '@tabler/icons';
+import {
+  IconCalendar,
+  IconClockHour8,
+  IconCloud,
+  IconCalendarEvent,
+} from '@tabler/icons';
 import { Box, createStyles, Text } from '@mantine/core';
 import { useDrag } from 'react-dnd';
 
@@ -37,6 +42,7 @@ const IconKey = {
   calendar: IconCalendar,
   clock: IconClockHour8,
   weather: IconCloud,
+  'google-calendar': IconCalendarEvent,
 };
 
 const DraggableComponent = ({ sidebar, name }) => {
@@ -66,8 +72,8 @@ const DraggableComponent = ({ sidebar, name }) => {
       {...collected}
     >
       <Icon />
-      <Text fz="xs" mt="4px">
-        {name}
+      <Text fz="xs" mt="4px" align="center">
+        {name?.replace('-', ' ')}
       </Text>
     </Box>
   );

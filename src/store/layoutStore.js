@@ -151,4 +151,22 @@ export const useLayoutStore = create((set, get) => ({
       },
     });
   },
+  toggleFadeText: () => {
+    set((state) => {
+      if (!state.selectedMirror.layout) return;
+
+      const newLayoutData = JSON.parse(
+        JSON.stringify(state.selectedMirror.layout),
+      );
+
+      newLayoutData = {
+        ...newLayoutData,
+        fadeText: !newLayoutData?.fadeText || true,
+      };
+
+      return {
+        selectedMirror: { ...state.selectedMirror, layout: newLayoutData },
+      };
+    });
+  },
 }));

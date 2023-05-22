@@ -1,0 +1,50 @@
+.element_Wrapper {
+  padding: 8px;
+  width: 100%;
+  .wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+    .day_wrapper {
+      &.old {
+        border-left: 2px solid #ff7677;
+      }
+      &.current {
+        border-left: 2px solid #3fc7d4;
+      }
+      &.future {
+        border-left: 2px solid #22ce5e;
+      }
+      .day {
+        font-family: 'Inter';
+        font-size: 18px;
+        font-weight: 700;
+        padding-left: 6px;
+      }
+      .month {
+        font-family: 'Inter';
+        font-size: 10px;
+        padding-left: 6px;
+      }
+    }
+    .right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      width: 100%;
+      .summary {
+        font-family: 'Inter';
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+      .time {
+        font-family: 'Inter';
+        font-size: 8px;
+        opacity: 0.75;
+      }
+    }
+  }
+}

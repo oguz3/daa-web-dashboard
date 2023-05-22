@@ -45,6 +45,11 @@ const AddNewElementSidebar = () => {
         <DraggableComponent sidebar key={'clock'} name={'clock'} />
         <DraggableComponent sidebar key={'calendar'} name={'calendar'} />
         <DraggableComponent sidebar key={'weather'} name={'weather'} />
+        <DraggableComponent
+          sidebar
+          key={'weatgoogle-calendarher'}
+          name={'google-calendar'}
+        />
       </Box>
     </Box>
   );

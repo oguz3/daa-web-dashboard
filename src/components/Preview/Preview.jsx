@@ -40,6 +40,12 @@ const Preview = () => {
   const layout = useLayoutStore((state) => state?.selectedMirror?.layout);
   const showGrid = useLayoutStore((state) => state.showGrid);
 
+  const isFadeTextVisible = layout?.fadeText ? true : false;
+
+  const keys = layout
+    ? Object.keys(layout).filter((key) => key !== 'fadeText')
+    : null;
+
   return (
     <Box className={classes.mirror}>
       <Box
@@ -47,9 +53,14 @@ const Preview = () => {
           [classes.withGap]: showGrid,
         })}
       >
-        {!layout
+        {!layout || !keys
           ? null
-          : Object.keys(layout).map((key) => {
+          : keys?.map((key) => {
+              if (isFadeTextVisible && key === 'bottom-center')
+                return (
+                  <DropTarget key={key} positionKey={key} element="fadeText" />
+                );
+
               return (
                 <DropTarget key={key} positionKey={key} element={layout[key]} />
               );

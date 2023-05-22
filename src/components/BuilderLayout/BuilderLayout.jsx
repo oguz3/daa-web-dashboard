@@ -8,6 +8,7 @@ import { useLayoutStore } from '@store/layoutStore';
 import styles from './BuilderLayout.module.scss';
 import { Box, Button, Drawer, Text, Title } from '@mantine/core';
 import ClockSidebar from '@components/ElementSidebar/ClockSidebar';
+import GoogleCalendarSidebar from '@components/ElementSidebar/GoogleCalendarSidebar';
 
 function BuilderLayout({
   builder = false,
@@ -54,13 +55,16 @@ function BuilderLayout({
             <Title order={4} style={{ textTransform: 'capitalize' }}>
               {drawerStatus.elementName}
             </Title>
-            <Text size="xs" style={{ textTransform: 'capitalize' }}>
+            <Text size="xs" style={{}}>
               {drawerStatus.elementName} element settings will be here
             </Text>
           </Box>
         }
       >
         {drawerStatus.elementName === 'clock' && <ClockSidebar />}
+        {drawerStatus.elementName === 'google-calendar' && (
+          <GoogleCalendarSidebar />
+        )}
 
         <Box
           px="md"

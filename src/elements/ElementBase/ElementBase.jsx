@@ -20,6 +20,12 @@ const ElementBase = ({ item }) => {
     openDrawer(item?.name);
   };
 
+  console.log(item);
+
+  if (item === 'fadeText') {
+    return element;
+  }
+
   return (
     <button
       className={cn(styles.elementButton, {

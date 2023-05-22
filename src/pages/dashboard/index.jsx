@@ -10,7 +10,6 @@ import { useRouter } from 'next/router';
 import { showNotification } from '@mantine/notifications';
 
 import MirrorImage from '../../../public/assets/mirror-dummy.jpg';
-
 export default function Dashboard() {
   const router = useRouter();
 
