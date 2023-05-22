@@ -2,9 +2,11 @@ import { useDrop } from 'react-dnd';
 
 import ElementBase from '@elements/ElementBase';
 
+const disabledPosition = ['center-center', 'bottom-center'];
+
 const DropTarget = ({ positionKey, element }) => {
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
-    accept: 'element',
+    accept: !disabledPosition.includes(positionKey) ? 'element' : 'disabled',
     drop: () => ({ position: positionKey }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
@@ -13,8 +15,13 @@ const DropTarget = ({ positionKey, element }) => {
   }));
 
   const isActive = canDrop && isOver;
+  const isDisabled = isOver && !canDrop;
 
-  const backgroundColor = isActive ? '#90ee908c' : 'black';
+  const backgroundColor = isActive
+    ? '#90ee908c'
+    : isDisabled
+    ? '#8080808c'
+    : 'black';
 
   return (
     <div

@@ -51,8 +51,11 @@ const BuilderScreen = ({ id }) => {
 
   const showGrid = useLayoutStore((state) => state.showGrid);
   const updateGrid = useLayoutStore((state) => state.updateGrid);
+  const layout = useLayoutStore((state) => state?.selectedMirror?.layout);
+  const isFadeTextVisible = layout?.fadeText ? true : false;
 
   const saveMirror = useLayoutStore((state) => state.saveMirror);
+  const toggleFadeText = useLayoutStore((state) => state.toggleFadeText);
 
   const handleSave = () => {
     saveMirror()
@@ -83,6 +86,15 @@ const BuilderScreen = ({ id }) => {
               }}
             >
               {showGrid ? 'Hide Grid' : 'Show Grid'}
+            </Button>
+            <Button
+              variant="outline"
+              color="dark"
+              onClick={() => {
+                toggleFadeText();
+              }}
+            >
+              {isFadeTextVisible ? 'Hide Bottom Text' : 'Show Bottom Text'}
             </Button>
             <Button
               variant="outline"

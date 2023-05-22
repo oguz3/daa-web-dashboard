@@ -11,4 +11,5 @@ export const layout = {
   'bottom-left': false,
   'bottom-center': false,
   'bottom-right': false,
+  fadeText: false,
 };
